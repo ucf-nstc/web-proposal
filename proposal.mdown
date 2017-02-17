@@ -1,30 +1,32 @@
-# Project Proposal
-
-## Necessary Changes
-- The issue of https dependency deprecation needs to be fixed. This should be a priority.
-    + 
-- Web projects need to be managed and versioned using VCS (git)
-- NSTC needs some kind of formalized web team or dedicated extra-department team to manage websites and web applications
-    + This team needs full and unfettered access to a development and production environment (development and production servers)
-    + This setup will allow for more powerful and dynamic applications and websites, and open up the possibilities for things like NSTC-specific mobile applications
-- Web ticketing system should be implemented
-
+# Web Technologies Project Proposal
 ## Problem
-The NanoScience Technology Center and Advanced Materials Processing and Analysis Center, along with other programs under the directorship of Dr. Sudipta Seal (Materials Science & Engineering, NSF REU, etc) have an outdated web presence that is built on top of mostly deprecated technologies. This makes for a suboptimal experience for both internal users within these entities as well as interested outside parties. In addition to this, the restrictive nature of the current hosting service (RIS ORC) is debilitating for any efforts towards upgrading and improving these problem points. Specific problems (in order of importance) include:
+The NanoScience Technology Center and Advanced Materials Processing and Analysis Center, along with other related programs (Materials Science & Engineering, NSF REU, etc) have an outdated web presence that is built on top of mostly deprecated technologies. This makes for a suboptimal experience for both internal users within these entities as well as interested outside parties. In addition to this, the restrictive nature of the current hosting service (RIS ORC) is debilitating for any efforts towards upgrading and improving these problem points. Specific problems (in order of importance) include:
 
-- Nanoscience.ucf.edu is served using a secure web protocol (https), but many of its dependencies are deprecated and only served over a normal web protocol (http), which means by default the resources are not loaded on nanoscience.ucf.edu and its child pages and the user must specifically allow for the unsecured connection. This is incredibly user-unfriendly at best and possibly damaging to the success of NSTC and its attractiveness to potential students and partners otherwise. 
-- The websites associated with the other entities (AMPAC, MSE, NSFREU, etc) are served over http, which is a potential security issue and is damaging to their rank on search engines and other outside indexing services.
-- The websites and applications listed above are all built on top of an aging codebase and rely on deprecated technology (as outlined in the first point). This has resulted in a monolithic web structure that relies on primarily static web pages, making even small changes to site content an involved process (minimum of 15 minutes for simple edits). This is an expensive and incredibly inefficient use of resources and could be easily solved using existing modern web technologies.
-- The current web hosting service provided by RIS ORC is conducive to the continuation of the current resource-expensive process. The hosting service is limited to static PHP and restricted MySQL functionality with no way to develop customizable solutions for web projects both planned and underway by the above entities. Some specific examples of projects that would greatly benefit from a more customizable hosting service include:
+1. Nanoscience.ucf.edu is served using a secure web protocol (https), but many of its dependencies are deprecated and only served over a normal web protocol (http), which means by default the resources are not loaded on nanoscience.ucf.edu and its child pages and the user must specifically allow for the unsecured connection. **This is incredibly user-unfriendly at best and possibly damaging to the success of NSTC and its attractiveness to potential students and partners otherwise.** 
+2. The websites associated with the other entities (AMPAC, MSE, NSFREU, etc) are served over http, which is a potential security issue and is damaging to their rank on search engines and other outside indexing services.
+3. There is currently no organized system of backups or version control for web projects related to the listed entities. This will inevitably lead to a problem of variable magnitude. Unless ORC is conducting regular backups, **this could result in the unrecoverable loss of all web data associated with the listed entities.** Even if there are backups being made by ORC, it is still a best practice to use a system of backups and version control for any web projects.
+4. The websites and applications listed above are all built on top of an aging codebase and rely on deprecated technology (as outlined in the first point). This has resulted in a monolithic web structure that relies on primarily static web pages, making even small changes to site content an involved process (minimum of 15 minutes for simple edits). This is an expensive and incredibly inefficient use of resources and could be easily solved using existing modern web technologies. In addition, all changes that are made to existing webpages are done so on the live production server, meaning any errors or issues with changes made to content **could result in the live public facing portions of web content associated with the listed entities to become unreachable by users.** In addition, combined with problem (3), this **could lead to the unrecoverable loss of the website data associated with the change being made to the live production server.** It is considered a best practice in modern web development to have an intermediary development environment where changes can be tested to make sure they won't break or otherwise disrupt the functionality of the live web content.
+5. The current web hosting service provided by RIS ORC is conducive to the continuation of the current resource-expensive process. The hosting service is limited to static PHP and restricted MySQL functionality with no way to develop customizable solutions for web projects both planned and underway by the above entities. Some specific examples of projects that would greatly benefit from a more customizable hosting service include:
     + The MISA Center website, a content driven site that will require frequent updates to content such as news posts and video related to developments with related agricultural technologies. In addition, there was discussion about allowing for subscribers to the site to have elevated site-privileges and access to additional resources. This type of setup is not feasible within the constraints of the current hosting service.
     + Research group websites would benefit from memebers of the research group having the ability to access and edit content related to the group, instead of having to go through the current process of requesting content changes. If group members were able to edit simple content then a significant amount of resources would be freed and could be allocated to other development projects. In addition, group members would save time not having to go through the extended process of back and forth to get simple content changes.
-- Currently, a ticketing system for web-related requests does not exist. This, in conjunction with the last problem, means that web requests are frequently overlooked or mismanaged. 
+6. Currently, a ticketing system for web-related requests does not exist. This, in conjunction with the last problem, means that web requests are frequently overlooked or mismanaged. 
 
-## Vision
+## Solutions/Deliverables
+1. Customizable server setup to handle web content and applications, as well as any future software driven projects. This includes a development workflow that safeguards the production web content from accidental breakage via an intermediary developmnent/staging server.
+    - Recommended technologies: DigitalOcean server environment or equivalent
+2. Updated websites for the listed entities that are built on top of up to date web frameworks and are served via HTTP over SSL (https). 
+    - Recommended technologies: React.js or equivalent for general front-end, individual projects determined during development. LAMP server stack or Node.js based server stack depending on performance requirements
+3. A standardized version control and backup system for all projects
+    - Recommended technologies: Git version control combined with a GitHub or GitLabs remote repo structure.
+4. A ticketing system to manage web related requests
+    - Recommended technologies: C-Desk, OTRS or equivalent
 
+## Approach
+In order to address these problems, a multi-step plan of action is reccomended. The listed deliverables can be used together to solve most if not all of the outlined problems. In order to implement the deliverables, the first action must be to set up an initial backup and version control system as outlined in deliverable (3) to safeguard against data loss during the process of migrating to a new server setup. This versioning and backup system will later be modified to fit the needs of the updated web content. The next action will be to set up an updated development and production environment as per deliverable (1). Once an updated development and production environment is set up and running in tandem to the current production environment (the ORC server), then we can begin the process of migrating the current web content to the new server. Once the web content is properly configured on the new production environment and development environment, then we can update the DNS setting to point to the new server configuration (essentially make nanoscience.ucf.edu etc point at the new server). Once this has been accomplished, then the current websites and web applications belonging to the listed entities can be systematically updated using a modular, project-based approach. Sections of the total web presence will be updated with new design and underlying functionality and security without interupting the legacy web content. This will be accomplished using aspects of deliverable (2). At any point in this process after establishing the new server system, a ticketing/help desk system as per deliverable (4) can be established.
 
-## Benefits
-## Deliverables
-## Success Criteria
-## Deadlines/Plan/Approach
 ## Cost/Budget
+The listed recommended technologies within the deliverables were selected for thier high performance and low cost. The costs below are based on the reference service or application in parentheses.
+- Server setup and hosting (DigitalOcean) : $480/yr
+- Website updates (React.js, LAMP stack) : $0
+- Version control and backup (Git, GitHub/GitLabs) : $0 - $300/yr  
+- Ticketing/Help desk software (C-Desk) : $0
